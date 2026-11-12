@@ -6,5 +6,5 @@ appVersion: "0.1.0"
 dependencies:
   - name: app
     version: 0.2.0
-    repository: oci://ghcr.io/doublurehq/charts
+    repository: oci://ghcr.io/badilhq/charts
     alias: app
