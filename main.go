@@ -78,7 +78,7 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
 }
 
-// countItems returns the number of rows in the items table.
+// countItems returns the number of rows in the items table, counted by the database.
 func countItems() (int, error) {
 	var n int
 	err := db.QueryRow("SELECT count(*) FROM items").Scan(&n)
