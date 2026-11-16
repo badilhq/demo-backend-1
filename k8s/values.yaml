@@ -38,4 +38,3 @@ app:
       envFrom:
         - secretRef:
             name: postgres
-# path filter testbed
