@@ -1,0 +1,10 @@
+apiVersion: v2
+name: backend-1
+description: Backend 1 - Go service with a per-preview Postgres
+version: 0.1.0
+appVersion: "0.1.0"
+dependencies:
+  - name: app
+    version: 0.2.0
+    repository: oci://ghcr.io/badilhq/charts
+    alias: svc

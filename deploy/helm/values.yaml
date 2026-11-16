@@ -1,0 +1,40 @@
+svc:
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/badilhq/demo-backend-1
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  service:
+    port: 8080
+
+  ingress:
+    enabled: true
+    host: backend-1.127.0.0.1.nip.io
+
+  # The Secret `postgres` comes from the `postgres` catalog service: its name is
+  # the release name, which is the catalog key. Renaming that key breaks this.
+  envFrom:
+    - secretRef:
+        name: postgres
+
+  initContainers:
+    - name: wait-for-db
+      image: postgres:18-alpine
+      command:
+        - sh
+        - -c
+        - until pg_isready -d "$DATABASE_URL"; do sleep 1; done
+      envFrom:
+        - secretRef:
+            name: postgres
+    - name: migrate
+      image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+      command:
+        - sh
+        - -c
+        - migrate -path /migrations -database "$DATABASE_URL" up
+      envFrom:
+        - secretRef:
+            name: postgres
