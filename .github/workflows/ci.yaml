@@ -37,6 +37,9 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=${{ github.event.pull_request.head.sha || github.sha }}
+            type=sha
+        env:
+          DOCKER_METADATA_PR_HEAD_SHA: "true"
 
       - name: Build and push
         uses: docker/build-push-action@v7
