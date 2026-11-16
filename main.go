@@ -68,6 +68,7 @@ func handleItems(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// handleHealth reports liveness (path filter testbed).
 func handleHealth(w http.ResponseWriter, r *http.Request) {
 	if err := db.Ping(); err != nil {
 		http.Error(w, "unhealthy", http.StatusServiceUnavailable)
