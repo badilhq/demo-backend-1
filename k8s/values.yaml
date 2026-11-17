@@ -38,3 +38,4 @@ app:
       envFrom:
         - secretRef:
             name: postgres
+# fix-unpin-testbed: k8s change
