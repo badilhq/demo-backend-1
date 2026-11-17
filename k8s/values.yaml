@@ -38,4 +38,3 @@ app:
       envFrom:
         - secretRef:
             name: postgres
-# audit-testbed: touch chart values
