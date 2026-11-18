@@ -64,6 +64,7 @@ func handleItems(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]any{
 		"service": "backend-1",
+		"version": "pull request",
 		"items":   items,
 	})
 }
