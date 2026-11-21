@@ -38,6 +38,7 @@ func main() {
 
 	http.HandleFunc("/items", handleItems)
 	http.HandleFunc("/health", handleHealth)
+	http.HandleFunc("/items/count", countHandler(countItems))
 
 	log.Printf("backend-1 listening on :%s", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
@@ -75,4 +76,25 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+}
+
+func countItems() (int, error) {
+	var n int
+	err := db.QueryRow("SELECT count(*) FROM items").Scan(&n)
+	return n, err
+}
+
+func countHandler(count func() (int, error)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		n, err := count()
+		if err != nil {
+			http.Error(w, fmt.Sprintf("query error: %v", err), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]any{
+			"service": "backend-1",
+			"count":   n,
+		})
+	}
 }
