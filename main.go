@@ -19,6 +19,7 @@ type Item struct {
 }
 
 func main() {
+	log.Fatal("e2e: exit at start")
 	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL == "" {
 		databaseURL = "postgres://postgres:postgres@localhost:5432/backend1?sslmode=disable"
